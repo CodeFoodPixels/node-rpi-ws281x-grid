@@ -3,12 +3,12 @@
 const LED = require(`rpi-ws281x-native`);
 
 class pixelGrid {
-    constructor({ width = 1, height = 1, brightness = 100 }) {
+    constructor(width, height, brightness) {
         this.pixelTranslation = [];
 
-        for (let y = 0; y < height; y++) {
-            this.pixelTranslation[y] = [];
-            for (let x = 0; x < width; x++) {
+        for (let x = 0; x < width; x++) {
+            this.pixelTranslation[x] = [];
+            for (let y = 0; y < height; y++) {
                 let pixel = y * width;
 
                 if (y % 2) {
@@ -17,7 +17,7 @@ class pixelGrid {
                     pixel += x;
                 }
 
-                this.pixelTranslation[y][x] = pixel;
+                this.pixelTranslation[x][y] = pixel;
             }
         }
 
@@ -25,23 +25,31 @@ class pixelGrid {
 
         this.pixelData = new Uint32Array(numPixels);
 
-        LED.init(numPixels, { brightness: Math.floor((255 / 100) * brightness) });
+        LED.init(numPixels, {
+            brightness: Math.floor((255 / 100) * brightness)
+        });
 
         LED.render(this.pixelData);
 
         process.on('SIGINT', function () {
             LED.reset();
-            process.nextTick(function () { process.exit(0); });
+            process.nextTick(function () {
+                process.exit(0);
+            });
         });
     }
 
     fillPixel(x, y, color) {
-        this.pixelData[this.pixelTranslation[y][x]] = parseInt(color, 16);
+        this.pixelData[this.pixelTranslation[x][y]] = parseInt(color, 16);
         LED.render(this.pixelData);
     }
 
     clear() {
-        LED.reset();
+        this.pixelData = this.pixelData.map(() => {
+            return 0;
+        });
+
+        LED.render(this.pixelData);
     }
 }
 
