@@ -1,0 +1,22 @@
+{
+  "name": "rpi-ws281x-grid",
+  "version": "1.0.0",
+  "description": "A library to control a grid of ws281x LEDs on a Raspberry Pi",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lukeb-uk/node-rpi-ws281x-grid.git"
+  },
+  "author": "Luke Bonaccorsi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lukeb-uk/node-rpi-ws281x-grid/issues"
+  },
+  "homepage": "https://github.com/lukeb-uk/node-rpi-ws281x-grid#readme",
+  "dependencies": {
+    "rpi-ws281x-native": "^0.8.2"
+  }
+}
