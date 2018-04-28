@@ -3,7 +3,7 @@
 const LED = require(`rpi-ws281x-native`);
 
 class pixelGrid {
-    constructor(width, height, brightness) {
+    constructor({width = 1, height = 1, brightness = 100}) {
         this.pixelTranslation = [];
 
         for (let x = 0; x < width; x++) {
