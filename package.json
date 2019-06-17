@@ -1,6 +1,6 @@
 {
   "name": "rpi-ws281x-grid",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A library to control a grid of ws281x LEDs on a Raspberry Pi",
   "main": "index.js",
   "scripts": {
