@@ -3,7 +3,7 @@
 const LED = require(`rpi-ws281x-native`);
 
 class pixelGrid {
-    constructor({width = 1, height = 1, brightness = 100}) {
+    constructor({width = 1, height = 1, brightness = 100, throttle = false}) {
         this.pixelTranslation = [];
 
         for (let x = 0; x < width; x++) {
@@ -24,6 +24,10 @@ class pixelGrid {
         const numPixels = width * height;
 
         this.pixelData = new Uint32Array(numPixels);
+
+        if (throttle) {
+            this.render = throttle(this.render, throttle);
+        }
 
         LED.init(numPixels, {
             brightness: Math.floor((255 / 100) * brightness)
@@ -50,6 +54,25 @@ class pixelGrid {
         });
 
         LED.render(this.pixelData);
+    }
+
+    render() {
+        LED.render(this.pixelData);
+    }
+}
+
+function throttle(callback, wait) {
+    let timeout = null
+
+    return function () {
+        const next = () => {
+            callback.apply(this, arguments)
+            timeout = null
+        }
+
+        if (!timeout) {
+            timeout = setTimeout(next, wait)
+        }
     }
 }
 
