@@ -26,7 +26,7 @@ class pixelGrid {
         this.pixelData = new Uint32Array(numPixels);
 
         if (throttle) {
-            this.render = throttle(this.render, throttle);
+            this.render = throttleFn(this.render, throttle);
         }
 
         LED.init(numPixels, {
@@ -61,7 +61,7 @@ class pixelGrid {
     }
 }
 
-function throttle(callback, wait) {
+function throttleFn(callback, wait) {
     let timeout = null
 
     return function () {
